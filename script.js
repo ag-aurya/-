@@ -1,3 +1,4 @@
+/* 
 // Scroll animation
 const elements = document.querySelectorAll('.animate');
 
@@ -27,4 +28,6 @@ document.querySelectorAll(".faq-btn").forEach(btn => {
     "Recebemos seu contato. Em breve falaremos com você.";
   e.target.reset();
 });
+
+/*
 
