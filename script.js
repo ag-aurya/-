@@ -21,9 +21,10 @@ document.querySelectorAll(".faq-btn").forEach(btn => {
 });
 
 // Form
-document.getElementById("leadForm").addEventListener("submit", e => {
+/* document.getElementById("leadForm").addEventListener("submit", e => {
   e.preventDefault();
   document.getElementById("status").innerText =
     "Recebemos seu contato. Em breve falaremos com você.";
   e.target.reset();
 });
+
