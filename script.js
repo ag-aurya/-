@@ -1,44 +1,55 @@
-// Scroll animation
-const elements = document.querySelectorAll('.animate');
+// MENU MOBILE
+const nav = document.querySelector('.nav');
+const header = document.querySelector('.header');
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
+// cria botão hamburguer dinamicamente
+const menuBtn = document.createElement('button');
+menuBtn.classList.add('menu-toggle');
+menuBtn.setAttribute('aria-label', 'Abrir menu');
+menuBtn.innerHTML = '☰';
+header.querySelector('.header-content').appendChild(menuBtn);
+
+menuBtn.addEventListener('click', () => {
+  nav.classList.toggle('active');
+  const expanded = nav.classList.contains('active');
+  menuBtn.setAttribute('aria-expanded', expanded);
+});
+
+// fecha menu ao clicar em link
+document.querySelectorAll('.nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('active');
+    menuBtn.setAttribute('aria-expanded', false);
+  });
+});
+
+// FAQ ACCORDION
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const answer = document.getElementById(btn.getAttribute('aria-controls'));
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+
+    if (expanded) {
+      btn.setAttribute('aria-expanded', 'false');
+      answer.hidden = true;
+      btn.querySelector('.icon').textContent = '+';
+    } else {
+      btn.setAttribute('aria-expanded', 'true');
+      answer.hidden = false;
+      btn.querySelector('.icon').textContent = '−';
     }
   });
 });
 
-elements.forEach(el => observer.observe(el));
-
-// FAQ
-
-document.querySelectorAll('.faq-question').forEach(button => {
-  button.addEventListener('click', () => {
-    const item = button.parentElement;
-
-    // Fecha os outros (efeito mais profissional)
-    document.querySelectorAll('.faq-item').forEach(i => {
-      if (i !== item) i.classList.remove('active');
-    });
-
-    item.classList.toggle('active');
+// SCROLL SUAVE
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
-});
-
-
-//document.querySelectorAll(".faq-btn").forEach(btn => {
-  //btn.addEventListener("click", () => {
-    //const content = btn.nextElementSibling;
-    //content.style.display =
-      //content.style.display === "block" ? "none" : "block";
-  //});
-//});
-
-// Form
-document.getElementById("leadForm").addEventListener("submit", e => {
-  e.preventDefault();
-  document.getElementById("status").innerText =
-    "Recebemos seu contato. Em breve falaremos com você.";
-  e.target.reset();
 });
